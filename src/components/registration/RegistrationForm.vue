@@ -33,10 +33,10 @@
 </template>
 
 <script>
-import { auth, usersCollection } from '@/includes/firebase'
+import { auth, db } from '@/includes/firebase'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router';
-import { addDoc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref } from 'vue'
 export default {
@@ -58,11 +58,12 @@ export default {
                     )
 
                     try {
-                        await addDoc(usersCollection, {
-                            email: email.value.value, nickname: nickname.value.value, level: 1, str: 5, mpower: 5, stamina: 5, mp: 0, hp: 0
+                        await setDoc(doc(db, 'users', userCred.value.user.uid), {
+                            email: email.value.value, nickname: nickname.value.value, level: 1, str: 5, mpower: 5, stamina: 5, mp: 100, hp: 100
                         });
 
                         userStore.userLoggedIn = true
+
                         router.push('/mycharacter')
 
                     } catch (e) {

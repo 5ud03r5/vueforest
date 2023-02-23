@@ -28,11 +28,7 @@
                 <span>Training</span>
             </RouterLink>
         </li>
-        <li>
-            <RouterLink :class="linkClass" to="/social"><img :class="imageClass" src="../../assets/three-friends.svg" />
-                <span>Social</span>
-            </RouterLink>
-        </li>
+
 
     </ul>
 </template>

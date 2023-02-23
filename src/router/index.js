@@ -4,10 +4,10 @@ import VillagePage from "../pages/VillagePage.vue";
 import ForestPage from "../pages/ForestPage.vue";
 import CraftingPage from "../pages/CraftingPage.vue";
 import TrainingPage from "../pages/TrainingPage.vue";
-import SocialPage from "../pages/SocialPage.vue";
 import RegistrationPage from "../pages/RegistrationPage.vue";
 import LoginPage from "../pages/LoginPage.vue";
 import { useUserStore } from "../stores/user";
+import { auth } from "../includes/firebase";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -29,7 +29,6 @@ const router = createRouter({
       component: TrainingPage,
       meta: { requiresAuth: true },
     },
-    { path: "/social", component: SocialPage, meta: { requiresAuth: true } },
     {
       path: "/register",
       component: RegistrationPage,
@@ -42,9 +41,12 @@ const router = createRouter({
 router.beforeEach((to) => {
   const store = useUserStore();
   if (to.meta.requiresAuth && !store.userLoggedIn) {
+    if (auth.currentUser) {
+      store.userLoggedIn = true;
+    }
     return "/login";
   } else if (!to.meta.requiresAuth && store.userLoggedIn) {
-    return "/mycharacter";
+    return to.redirectedFrom.fullPath;
   }
 });
 
