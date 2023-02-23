@@ -7,12 +7,16 @@
 <script>
 import TheNavbar from './components/layout/TheNavbar.vue';
 import TheUnderNavbar from './components/layout/TheUnderNavbar.vue';
-
+import { useUserStore } from './stores/user';
 
 export default {
   components: {
     TheNavbar,
     TheUnderNavbar
+  },
+  setup() {
+    const userStore = useUserStore()
+    return { loggedIn: userStore.userLoggedIn }
   }
 }
 </script>

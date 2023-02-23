@@ -1,5 +1,6 @@
 <template>
-    <ul class="flex pl-7 pr-7 pb-2 space-x-10 bg-gradient-to-r from-gray-800 via-gray-200 to-gray-800 justify-center">
+    <ul
+        class="flex pl-7 pr-7 pb-2 space-x-10 bg-gradient-to-r from-gray-800 via-gray-200 to-gray-800 justify-center flex-wrap">
         <li>
 
             <RouterLink to="/mycharacter" :class="linkClass"><img :class="imageClass"
@@ -43,16 +44,16 @@ const linkClass = ref('flex space-x-2')
 </script>
 <style scoped>
 .router-link-active {
-    animation: shadow 3s forwards infinite
+    animation: shadow 3s alternate infinite
 }
 
 @keyframes shadow {
     from {
-        text-shadow: 0 0 0px black;
+        text-shadow: 1px 1px 10px cyan;
     }
 
     to {
-        text-shadow: 0 0 40px black
+        text-shadow: -1px -1px 10px black
     }
 }
 </style>

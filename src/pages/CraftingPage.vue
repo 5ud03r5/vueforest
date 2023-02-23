@@ -30,8 +30,11 @@
 
 <script>
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/user'
 export default {
     setup() {
+        const store = useUserStore()
+        console.log(store.userLoggedIn)
         const itemClass = ref('h-10 bg-gray-300 m-1 hover:cursor-pointer')
         const items = [{ name: 'helmet', src: '/src/assets/helmet.svg' },
         { name: 'legs', src: '/src/assets/legs.svg' },
