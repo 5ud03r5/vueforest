@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
-
+import { VueQueryPlugin } from "vue-query";
 import App from "./App.vue";
 import router from "./router";
 import { auth } from "./includes/firebase";
@@ -14,7 +14,7 @@ auth.onAuthStateChanged(() => {
 
     app.use(createPinia());
     app.use(router);
-
+    app.use(VueQueryPlugin);
     router.isReady().then(() => {
       app.mount("#app");
     });

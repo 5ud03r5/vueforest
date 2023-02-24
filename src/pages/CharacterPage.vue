@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="data" class="flex flex-col justify-center space-y-3 ">
+        <div v-if="!isLoading" class="flex flex-col justify-center space-y-3 ">
             <CharacterInfo :data="data"></CharacterInfo>
             <div class="flex justify-center space-x-10">
                 <TheEquipment></TheEquipment>
@@ -18,9 +18,12 @@
 import CharacterInfo from '../components/mycharacter/CharacterInfo.vue';
 import TheEquipment from '../components/mycharacter/TheEquipment.vue';
 import TheStatistics from '../components/mycharacter/TheStatistics.vue'
-import { doc, getDoc } from "firebase/firestore";
-import { db, auth } from '../includes/firebase';
-import { ref, reactive, isRef } from 'vue'
+import { inject } from 'vue'
+
+
+
+
+
 export default {
     components: {
         TheEquipment,
@@ -28,22 +31,9 @@ export default {
         CharacterInfo
     },
     setup() {
-
-        const docRef = doc(db, "users", auth.currentUser.uid);
-        const data = ref(null)
-        const getSnap = async () => {
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                data.value = docSnap.data()
-            } else {
-                console.log('Document does no exist')
-            }
-        }
-        getSnap()
-
-
-
-        return { data }
+        const data = inject('data')
+        const isLoading = inject('isLoading')
+        return { data, isLoading }
 
     }
 
