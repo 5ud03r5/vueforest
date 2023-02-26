@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul class="flex flex-col space-y-2 items-center">
-            <img class="h-32" src="../../assets/dwarf.svg" />
+            <img class="h-32" src="../../assets/game/knight/Head.png" />
             <li class="text-white">{{ data.nickname }} <span class="text-cyan-300">{{ data.level }} lvl</span></li>
         </ul>
     </div>

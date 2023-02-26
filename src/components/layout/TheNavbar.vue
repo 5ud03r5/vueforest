@@ -1,6 +1,6 @@
 <template>
     <nav class="">
-        <ul class="flex justify-center space-x-10 p-4 bg-gray-800 text-slate-100 shadow-xl fixed w-full">
+        <ul class="flex justify-center space-x-10 p-4 bg-gray-800 text-slate-100 shadow-xl fixed w-full z-[2000]">
             <RouterLink to="/">Home</RouterLink>
 
             <RouterLink v-if="!userStore.userLoggedIn" to="/register">Register</RouterLink>

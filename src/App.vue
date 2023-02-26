@@ -33,16 +33,37 @@ export default {
   setup() {
     const docRef = doc(db, "users", auth.currentUser.uid);
     const useCharacterQuery = () => {
-      return useQuery("users", () => getSnap(docRef));
+      return useQuery(["users", auth.currentUser.uid], () => getSnap(docRef));
     }
     const { isLoading, data } = useCharacterQuery();
     provide('data', data)
-
     provide('isLoading', isLoading)
-
     const userStore = useUserStore()
-
+    userStore.user = data;
     return { loggedIn: userStore.userLoggedIn }
   }
 }
 </script>
+
+<style>
+/* width */
+::-webkit-scrollbar {
+  width: 1px
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #2a2a2a;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2a2a2a;
+}
+</style>

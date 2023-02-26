@@ -3,21 +3,11 @@
         class="flex pl-7 pr-7 pb-2 space-x-10 bg-gradient-to-r from-gray-800 via-gray-200 to-gray-800 justify-center flex-wrap">
         <li>
 
-            <RouterLink to="/mycharacter" :class="linkClass"><img :class="imageClass"
-                    src="../../assets/warlord-helmet.svg" />
-                <span>My Character</span>
+            <RouterLink to="/arena" :class="linkClass"><img :class="imageClass" src="../../assets/warlord-helmet.svg" />
+                <span>Arena</span>
             </RouterLink>
         </li>
-        <li>
-            <RouterLink :class="linkClass" to="/village"><img :class="imageClass" src="../../assets/village.svg" />
-                <span>Village</span>
-            </RouterLink>
-        </li>
-        <li>
-            <RouterLink :class="linkClass" to="/forest"><img :class="imageClass" src="../../assets/forest-entrance.svg" />
-                <span>Forest</span>
-            </RouterLink>
-        </li>
+
         <li>
             <RouterLink :class="linkClass" to="/crafting"><img :class="imageClass" src="../../assets/crafting.svg" />
                 <span>Crafting</span>
@@ -28,6 +18,7 @@
                 <span>Training</span>
             </RouterLink>
         </li>
+
 
 
     </ul>

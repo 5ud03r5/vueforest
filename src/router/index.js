@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import CharacterPage from "../pages/CharacterPage.vue";
-import VillagePage from "../pages/VillagePage.vue";
-import ForestPage from "../pages/ForestPage.vue";
+import ArenaPage from "../pages/ArenaPage.vue";
 import CraftingPage from "../pages/CraftingPage.vue";
 import TrainingPage from "../pages/TrainingPage.vue";
 import RegistrationPage from "../pages/RegistrationPage.vue";
@@ -13,12 +11,11 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/mycharacter",
-      component: CharacterPage,
+      path: "/arena",
+      component: ArenaPage,
       meta: { requiresAuth: true },
     },
-    { path: "/village", component: VillagePage, meta: { requiresAuth: true } },
-    { path: "/forest", component: ForestPage, meta: { requiresAuth: true } },
+
     {
       path: "/crafting",
       component: CraftingPage,
@@ -29,6 +26,7 @@ const router = createRouter({
       component: TrainingPage,
       meta: { requiresAuth: true },
     },
+
     {
       path: "/register",
       component: RegistrationPage,

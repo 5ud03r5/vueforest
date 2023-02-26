@@ -59,7 +59,7 @@ export default {
 
                     try {
                         await setDoc(doc(db, 'users', userCred.value.user.uid), {
-                            email: email.value.value, nickname: nickname.value.value, level: 1, str: 5, mpower: 5, stamina: 5, mp: 100, hp: 100, cp: 0, tp: 0
+                            email: email.value.value, nickname: nickname.value.value, level: 1, str: 5, mpower: 5, stamina: 100, mp: 100, hp: 100, cp: 0, tp: 0
                         });
 
                         userStore.userLoggedIn = true
