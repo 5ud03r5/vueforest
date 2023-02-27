@@ -37,10 +37,11 @@ export default {
                 right.value = round
                 if (right.value < 20) {
                     counter.value = 1;
-                    charState.value = 'idle'
+
                     round = 0
                     right.value = 20
                     gameStore.turn = 'user'
+                    charState.value = 'idle'
                     gameStore.actionInProgress = false
 
                 }
@@ -48,7 +49,9 @@ export default {
             counter.value++;
             if (counter.value > 9) {
                 if (charState.value === "attack") {
+                    gameStore.playerHit = true
                     charState.value = "runback";
+
                 }
                 counter.value = 1;
 
@@ -60,11 +63,12 @@ export default {
         })
         watch(gameStore, () => {
 
-            if (gameStore.turn === 'monster') {
+            if (gameStore.turn === 'monster' && charState.value === 'idle') {
                 setAttack()
             }
             if (gameStore.monsterHit === true) {
                 showHit.value = true
+
                 const interval = setInterval(() => {
                     top.value = top.value + 10
                     opacity.value = opacity.value - 0.1
@@ -81,10 +85,8 @@ export default {
 
 
         const setAttack = () => {
-
             charState.value = 'run'
             counter.value = 1
-
         }
         return { monsterPic, setAttack, right, showHit, top, opacity }
     }

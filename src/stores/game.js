@@ -5,5 +5,6 @@ export const useGameStore = defineStore("game", () => {
   const turn = ref("user");
   const actionInProgress = ref(true);
   const monsterHit = ref(false);
-  return { turn, actionInProgress, monsterHit };
+  const playerHit = ref(false);
+  return { turn, actionInProgress, monsterHit, playerHit };
 });
