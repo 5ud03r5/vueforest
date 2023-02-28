@@ -8,6 +8,7 @@
 import TheNavbar from './components/layout/TheNavbar.vue';
 import TheUnderNavbar from './components/layout/TheUnderNavbar.vue';
 import { useUserStore } from './stores/user';
+import { useGameStore } from './stores/game';
 import { useQueryProvider } from "vue-query";
 import { doc, getDoc } from "firebase/firestore";
 import { db, auth } from '@/includes/firebase';
@@ -39,7 +40,11 @@ export default {
     provide('data', data)
     provide('isLoading', isLoading)
     const userStore = useUserStore()
+    const gameStore = useGameStore()
     userStore.user = data;
+
+
+
     return { loggedIn: userStore.userLoggedIn }
   }
 }

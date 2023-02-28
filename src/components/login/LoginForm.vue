@@ -54,7 +54,7 @@ export default {
                     return;
                 }
                 userStore.userLoggedIn = true
-                router.push('/mycharacter')
+                router.push('/arena')
             } else {
                 alert('Email or password invalid')
             }

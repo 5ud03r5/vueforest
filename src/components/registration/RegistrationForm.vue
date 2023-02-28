@@ -59,12 +59,20 @@ export default {
 
                     try {
                         await setDoc(doc(db, 'users', userCred.value.user.uid), {
-                            email: email.value.value, nickname: nickname.value.value, level: 1, str: 5, mpower: 5, stamina: 100, mp: 100, hp: 100, cp: 0, tp: 0
+                            email: email.value.value, nickname: nickname.value.value,
+                            equipment: {
+                                necklace: { name: 'necklace', rank: 'basic', mp: 1 }, helmet: { name: 'helmet', rank: 'basic', def: 1 }, earrings: { name: 'earrings', rank: 'basic', mp: 1 },
+                                armor: { name: 'armor', rank: 'basic', def: 3 }, main: { name: 'main', rank: 'basic', str: 1 }, off: { name: 'off', rank: 'basic', def: 2 },
+                                ringFirst: { name: 'ringFirst', rank: 'basic', mp: 1 }, legs: { name: 'legs', rank: 'basic', def: 2 },
+                                ringSecond: { name: 'ringSecond', rank: 'basic', mp: 1 }, gloves: { name: 'gloves', rank: 'basic', def: 1 }, boots: { name: 'boots', rank: 'basic', def: 1 }
+                            },
+                            level: 1, str: 5, mpower: 5, stamina: 100, mp: 100, hp: 100, cp: 0, tp: 0
                         });
+
 
                         userStore.userLoggedIn = true
 
-                        router.push('/mycharacter')
+                        router.push('/arena')
 
                     } catch (e) {
                         console.error("Error adding document: ", e);

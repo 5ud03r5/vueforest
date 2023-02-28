@@ -1,13 +1,14 @@
 <template>
-    <div class="relative" @mouseenter="displayActions = true" @mouseleave="displayActions = false">
+    <div class="relative" @mouseenter="displayActions = true" @click="displayActions = true"
+        @mouseleave="displayActions = false">
         <img :class="charClass" :src='charPic' :style="{ left: left ? left + 'px' : null }" />
         <div v-if="showHit" class="absolute z-[2000] text-red-800 text-[50px] font-black h-max w-max p-2"
             :style="{ top: -top + 'px', opacity: opacity }">
-            -100
+            -{{ hit }}
         </div>
         <div v-if="showHeal" class="absolute z-[2000] text-green-800 text-[50px] font-black h-max w-max p-2"
             :style="{ top: -top + 'px', opacity: opacity }">
-            +100
+            +{{ heal }}
         </div>
 
         <div v-if="displayActions && !actionInProgress" class="absolute z-[1000] top-[-220px]">
@@ -28,21 +29,27 @@
 
 <script>
 import { ref, watch } from 'vue';
+import { onBeforeRouteLeave } from 'vue-router';
 import { useGameStore } from '@/stores/game'
+import { useUserStore } from '../../stores/user';
 export default {
     setup() {
-
+        const userStore = useUserStore()
+        const attacking = ref(false)
         const counter = ref(1);
         const left = ref(null)
         let round = 1
+        const heal = ref(0)
+        const hit = ref(0)
         const actionInProgress = ref(false)
         const top = ref(250)
         const showHit = ref(false)
         const opacity = ref(1)
         const gameStore = useGameStore()
-        const charState = ref("idle");
+        const charState = ref('idle');
         const showHeal = ref(false)
         const charClass = ref('absolute h-44 top-[-163px]')
+        onBeforeRouteLeave(() => { clearInterval(intervalMain), console.log('here') })
         const setJump = (event) => {
             console.log(event);
         };
@@ -54,6 +61,12 @@ export default {
         const setHeal = () => {
             actionInProgress.value = true
             gameStore.turn = 'monster'
+            heal.value = (Math.floor(Math.random() * ((userStore.user.mpower + gameStore.userMpowerFromItems) - 2) + 2))
+            if ((gameStore.userLife + heal.value) > 100) {
+                gameStore.userLife = 100
+            } else {
+                gameStore.userLife = gameStore.userLife + heal.value
+            }
             showHeal.value = true
             const intervalHeal = setInterval(() => {
                 top.value = top.value + 10
@@ -68,7 +81,7 @@ export default {
 
         }
 
-        setInterval(() => {
+        const intervalMain = setInterval(() => {
             if (charState.value === "run") {
 
                 round = round + 10
@@ -86,6 +99,7 @@ export default {
                     charState.value = 'idle'
                     round = 0
                     left.value = 0
+                    console.log(gameStore.turn)
                     gameStore.turn = 'monster'
 
 
@@ -95,6 +109,7 @@ export default {
             if (counter.value > 9) {
                 if (charState.value === "attack") {
                     gameStore.monsterHit = true
+
                     charState.value = "runback";
 
                 }
@@ -113,7 +128,22 @@ export default {
                 actionInProgress.value = false
                 gameStore.actionInProgress = true
             }
-            if (gameStore.playerHit === true) {
+            if (gameStore.playerHit === true && attacking.value === false) {
+                attacking.value = true
+                hit.value = (Math.floor(Math.random() * (gameStore.monsterData.str - 1) + 1))
+                let firstCombatAction = gameStore.userArmorFromItems - hit.value
+                if (firstCombatAction > 0) {
+                    if (hit.value - firstCombatAction < 0) {
+                        hit.value = 0
+                    } else {
+                        hit.value = hit.value - (gameStore.userArmorFromItems - hit.value)
+                        console.log('after else', hit.value)
+                    }
+                }
+
+
+
+                gameStore.userLife = gameStore.userLife - hit.value
                 showHit.value = true
                 const interval = setInterval(() => {
                     top.value = top.value + 10
@@ -123,6 +153,7 @@ export default {
                         top.value = 250
                         opacity.value = 1
                         gameStore.playerHit = false
+                        attacking.value = false
                         clearInterval(interval)
                     }
                 }, 50)
@@ -130,7 +161,7 @@ export default {
         })
 
 
-        return { charPic, setAttack, setJump, displayActions, charClass, left, actionInProgress, top, opacity, showHit, setHeal, showHeal };
+        return { charPic, setAttack, setJump, displayActions, charClass, left, actionInProgress, top, opacity, showHit, setHeal, showHeal, hit, heal };
     },
 
 

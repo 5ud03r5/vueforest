@@ -61,11 +61,13 @@
         <teleport to="body">
             <div v-if="showItem" class="shadow-2xl absolute" :style="{ top: top + 'px', left: left + 'px' }">
                 <div class="mt-10 flex flex-col justify-center items-center ml-auto mr-auto bg-gray-900 rounded-lg  p-4">
-                    <div name="equipment" class="text-purple-200">{{ clickedItem }}</div>
-                    <div name="rank" class="text-pink-400">Legendary</div>
-                    <div name="strength" class="text-gray-100">Strength 10</div>
-                    <div name="mp" class="text-gray-100">Magic power 10</div>
-                    <div name="stamina" class="text-gray-100">Stamina 10</div>
+                    <div name="equipment" class="text-purple-200">{{ clickedItem.name }}</div>
+                    <div name="rank" :class="clickedItem.rank === 'basic' ? 'text-gray-100' : 'text-pink-400'">{{
+                        clickedItem.rank }}</div>
+                    <div v-if="clickedItem.str" name="strength" class="text-gray-100">Strength {{ clickedItem.str }}</div>
+                    <div v-if="clickedItem.mp" name="mp" class="text-gray-100">Magic power {{ clickedItem.mp }}</div>
+                    <div v-if="clickedItem.def" name="armor" class="text-gray-100">Armor {{ clickedItem.def }}</div>
+
                 </div>
             </div>
         </teleport>
@@ -75,9 +77,12 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, reactive } from 'vue';
+import { useUserStore } from '../../stores/user';
 const showItem = ref(false)
-const clickedItem = ref('shadow-2xl absolute')
+const userStore = useUserStore()
+const clickedItem = ref(null)
+const equipment = reactive(userStore.user.equipment)
 const top = ref(null)
 const left = ref(null)
 
@@ -85,10 +90,17 @@ const setHideItem = () => {
     showItem.value = false
 }
 
-const setShowItem = (event, item) => {
+const setShowItem = (event, value) => {
     top.value = event.pageY
     left.value = event.pageX + 10
-    clickedItem.value = item
+
+    clickedItem.value = Object.fromEntries(
+        Object.entries(equipment)
+            .filter(([_, item]) => item.name === value)
+            .map(([key, item]) => [key, { ...item }])
+    )
+    clickedItem.value = Object.values(clickedItem.value)[0]
+
     showItem.value = true
 }
 

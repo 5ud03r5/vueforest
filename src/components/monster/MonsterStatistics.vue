@@ -1,5 +1,5 @@
 <template>
-    <div class="flex space-x-20 bg-gray-600  rounded-md p-2 shadow-xl">
+    <div class="flex space-x-20 flex-nowrap bg-gray-600  rounded-md p-2 shadow-xl w-[180px]">
 
         <ul class=" flex flex-col space-y-3 text-white">
             <li title="strength" :class="backStat"><img :class="imgClass" src="../../assets/strength.svg" />
@@ -7,7 +7,7 @@
             </li>
 
             <li title="health points" :class="backStat"><img :class="imgClass" src="../../assets/hp.svg" />
-                <div class="bg-red-600 h-5 rounded-xl" :style="{ width: data.hp + 'px' }"></div><span>{{ data.hp }}</span>
+                <div class="bg-red-600 h-5 rounded-xl" :style="{ width: life + 'px' }"></div><span>{{ life }}</span>
             </li>
             <li title="experience" :class="backStat"><img :class="imgClass" src="../../assets/exp.svg" />
                 <div class="bg-orange-600 h-5 rounded-xl" :style="{ width: data.exp + 'px' }"></div><span>{{ data.exp
@@ -18,15 +18,22 @@
 </template>
 
 <script >
-import { ref } from 'vue';
-
+import { ref, watch } from 'vue';
+import { useGameStore } from '../../stores/game';
 export default {
+
     props: ['data'],
     setup(props) {
+        const gameStore = useGameStore()
         const backStat = ref('flex items-center space-x-1')
         const imgClass = ref('h-6')
         const data = ref(props.data)
-        return { backStat, imgClass, data }
+        gameStore.monsterData = data
+        const life = ref(gameStore.monsterLife)
+        watch(gameStore, () => {
+            life.value = gameStore.monsterLife
+        })
+        return { backStat, imgClass, data, life }
     }
 
 }
