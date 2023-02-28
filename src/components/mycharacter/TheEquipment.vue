@@ -2,56 +2,49 @@
     <div class="flex space-y-2 flex-col relative">
         <div name="equipment" class="bg-gray-600  rounded-md p-4 shadow-xl">
             <div class="flex">
-                <div name="necklace" title="necklace" :class="itemClass" @mouseleave="setHideItem"
+                <div name="necklace" :class="itemClass" @mouseleave="setHideItem"
                     @mouseenter="setShowItem($event, 'necklace')">
                     <img src="../../assets/necklace.svg" alt="necklace" class="h-10" />
                 </div>
-                <div name="helmet" title="helmet" :class="itemClass" @mouseleave="setHideItem"
-                    @mouseenter="setShowItem($event, 'helmet')">
+                <div name="helmet" :class="itemClass" @mouseleave="setHideItem" @mouseenter="setShowItem($event, 'helmet')">
                     <img src="../../assets/helmet.svg" alt="helmet" class="h-10" />
                 </div>
-                <div name="earrings" title="earrings" :class="itemClass" @mouseleave="setHideItem"
-                    @click="setShowItem($event, 'earrings')" @mouseenter="setShowItem($event, 'earrings')">
+                <div name="earrings" :class="itemClass" @mouseleave="setHideItem" @click="setShowItem($event, 'earrings')"
+                    @mouseenter="setShowItem($event, 'earrings')">
                     <img src="../../assets/earrings.svg" alt="earrings" class="h-10" />
                 </div>
             </div>
 
 
             <div class="flex">
-                <div name="main" title="main hand" :class="itemClass" @mouseleave="setHideItem"
-                    @mouseenter="setShowItem($event, 'main')">
+                <div name="main" :class="itemClass" @mouseleave="setHideItem" @mouseenter="setShowItem($event, 'main')">
                     <img src="../../assets/main.svg" alt="main hand" class="h-10" />
                 </div>
-                <div name="armor" title="armor" :class="itemClass" @mouseleave="setHideItem"
-                    @mouseenter="setShowItem($event, 'armor')">
+                <div name="armor" :class="itemClass" @mouseleave="setHideItem" @mouseenter="setShowItem($event, 'armor')">
                     <img src="../../assets/armor.svg" alt="armor" class="h-10" />
                 </div>
-                <div name="off" title="off hand" :class="itemClass" @mouseleave="setHideItem"
-                    @mouseenter="setShowItem($event, 'off')">
+                <div name="off" :class="itemClass" @mouseleave="setHideItem" @mouseenter="setShowItem($event, 'off')">
                     <img src="../../assets/off.svg" alt="off hand" class="h-10" />
                 </div>
             </div>
             <div class="flex">
-                <div name="ringFirst" title="first ring" :class="itemClass" @mouseleave="setHideItem"
+                <div name="ringFirst" :class="itemClass" @mouseleave="setHideItem"
                     @mouseenter="setShowItem($event, 'ringFirst')">
                     <img src="../../assets/ring.svg" alt="first ring" class="h-10" />
                 </div>
-                <div name="legs" title="legs" :class="itemClass" @mouseleave="setHideItem"
-                    @mouseenter="setShowItem($event, 'legs')">
+                <div name="legs" :class="itemClass" @mouseleave="setHideItem" @mouseenter="setShowItem($event, 'legs')">
                     <img src="../../assets/legs.svg" alt="legs" class="h-10" />
                 </div>
-                <div name="ringSecond" title="second ring" :class="itemClass" @mouseleave="setHideItem"
+                <div name="ringSecond" :class="itemClass" @mouseleave="setHideItem"
                     @mouseenter="setShowItem($event, 'ringSecond')">
                     <img src="../../assets/ring.svg" alt="second ring" class="h-10" />
                 </div>
             </div>
             <div class="flex">
-                <div name="gloves" title="gloves" :class="itemClass" @mouseenter="setShowItem($event, 'gloves')"
-                    @mouseleave="setHideItem">
+                <div name="gloves" :class="itemClass" @mouseenter="setShowItem($event, 'gloves')" @mouseleave="setHideItem">
                     <img src="../../assets/gloves.svg" alt="gloves" class="h-10" />
                 </div>
-                <div name="boots" title="boots" :class="itemClass" @mouseleave="setHideItem"
-                    @mouseenter="setShowItem($event, 'boots')">
+                <div name="boots" :class="itemClass" @mouseleave="setHideItem" @mouseenter="setShowItem($event, 'boots')">
                     <img src="../../assets/boots.svg" alt="boots" class="h-10" />
                 </div>
 

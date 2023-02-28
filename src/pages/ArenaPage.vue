@@ -24,9 +24,8 @@
         <div v-if="!isLoading"
             class=" justify-center space-y-3  bg-gradient-to-b from-gray-800 to-gray-900 h-max w-max p-5 rounded-xl shadow-xl">
 
-            <MonsterInfo :monsterType="monsterType"></MonsterInfo>
+            <MonsterInfo :data="data"></MonsterInfo>
             <div class="mx-auto space-y-10">
-
                 <MonsterStatistics :data="data"></MonsterStatistics>
             </div>
 
@@ -36,6 +35,9 @@
         <div v-else class="flex flex-col justify-center space-y-3 ">
             <div class="flex justify-center space-x-10">Loading...</div>
         </div>
+        <teleport to="body">
+            <ModalDisplay v-if="gameover" @modalClose="modalClose"></ModalDisplay>
+        </teleport>
 
 
 
@@ -48,16 +50,19 @@ import CharacterInfo from '../components/mycharacter/CharacterInfo.vue';
 import TheEquipment from '../components/mycharacter/TheEquipment.vue';
 import TheStatistics from '../components/mycharacter/TheStatistics.vue';
 import MonsterInfo from '../components/monster/MonsterInfo.vue'
-import { inject, ref } from 'vue'
+import { inject, ref, watch } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router';
-import { useQuery } from 'vue-query';
+import { useQuery, useQueryClient } from 'vue-query';
 import TheGame from '../components/game/TheGame.vue';
 import MonsterEquipment from '../components/monster/MonsterEquipment.vue'
 import MonsterStatistics from '../components/monster/MonsterStatistics.vue'
+
 import { db } from '../includes/firebase';
 import { doc } from '@firebase/firestore';
 import { useGetSnap } from '@/hooks/query'
 import { useGameStore } from '../stores/game';
+
+import ModalDisplay from '../components/UI/ModalDisplay.vue';
 
 export default {
     components: {
@@ -67,15 +72,18 @@ export default {
         TheGame,
         MonsterInfo,
         MonsterEquipment,
-        MonsterStatistics
+        MonsterStatistics,
+        ModalDisplay
     },
 
     setup() {
         const monsterType = ref('bandit')
+        const queryClient = useQueryClient()
         const gameStore = useGameStore()
-        const docRef = doc(db, "monster", monsterType.value);
+        const gameover = ref(false)
+        const docRef = ref(doc(db, "monster", monsterType.value))
         const useMonsterQuery = () => {
-            return useQuery(["monster", monsterType.value], () => useGetSnap(docRef));
+            return useQuery(["monster", monsterType.value], () => useGetSnap(docRef.value));
         }
         const { data, isLoading } = useMonsterQuery()
 
@@ -83,16 +91,32 @@ export default {
         const setJump = () => {
             console.log('ll')
         }
-
+        watch(gameStore, () => {
+            if (gameStore.userLife <= 0) {
+                gameover.value = true
+            }
+        })
+        const modalClose = () => {
+            gameover.value = false
+            console.log(gameover.value)
+            gameStore.resetValues()
+        }
         const charIsLoading = inject('isLoading')
         onBeforeRouteLeave((to, from, next) => {
-            const userWantsToLeave = confirm('Are you sure wanna leave the arena? All your data will be lost.')
-            if (userWantsToLeave) {
-                gameStore.resetValues()
+            if (gameStore.gameInProgress) {
+                const userWantsToLeave = confirm('Are you sure wanna leave the arena? All your data will be lost.')
+                if (userWantsToLeave) {
+                    gameStore.resetValues()
+                }
+                next(userWantsToLeave)
             }
-            next(userWantsToLeave)
+            next()
+
+
         })
-        return { charData, charIsLoading, data, isLoading, setJump, monsterType }
+
+
+        return { charData, charIsLoading, data, isLoading, setJump, monsterType, gameover, modalClose }
 
     }
 

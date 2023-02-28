@@ -4,7 +4,7 @@
         <img :class="charClass" :src='charPic' :style="{ left: left ? left + 'px' : null }" />
         <div v-if="showHit" class="absolute z-[2000] text-red-800 text-[50px] font-black h-max w-max p-2"
             :style="{ top: -top + 'px', opacity: opacity }">
-            -{{ hit }}
+            {{ hit === 0 ? 'Miss' : '-' + hit }}
         </div>
         <div v-if="showHeal" class="absolute z-[2000] text-green-800 text-[50px] font-black h-max w-max p-2"
             :style="{ top: -top + 'px', opacity: opacity }">
@@ -40,7 +40,7 @@ export default {
         const left = ref(null)
         let round = 1
         const heal = ref(0)
-        const hit = ref(0)
+        const hit = ref(null)
         const actionInProgress = ref(false)
         const top = ref(250)
         const showHit = ref(false)
@@ -55,11 +55,13 @@ export default {
         };
         const setAttack = (event) => {
             actionInProgress.value = true
+            gameStore.gameInProgress = true
             charState.value = "run";
         }
 
         const setHeal = () => {
             actionInProgress.value = true
+            gameStore.gameInProgress = true
             gameStore.turn = 'monster'
             heal.value = (Math.floor(Math.random() * ((userStore.user.mpower + gameStore.userMpowerFromItems) - 2) + 2))
             if ((gameStore.userLife + heal.value) > 100) {
@@ -130,20 +132,21 @@ export default {
             }
             if (gameStore.playerHit === true && attacking.value === false) {
                 attacking.value = true
-                hit.value = (Math.floor(Math.random() * (gameStore.monsterData.str - 1) + 1))
+                hit.value = (Math.floor(Math.random() * (gameStore.monsterStr - Math.floor(gameStore.monsterStr / 2)) + Math.floor(gameStore.monsterStr / 2)))
                 let firstCombatAction = gameStore.userArmorFromItems - hit.value
                 if (firstCombatAction > 0) {
                     if (hit.value - firstCombatAction < 0) {
                         hit.value = 0
                     } else {
                         hit.value = hit.value - (gameStore.userArmorFromItems - hit.value)
-                        console.log('after else', hit.value)
+
+
                     }
                 }
-
-
-
                 gameStore.userLife = gameStore.userLife - hit.value
+
+
+
                 showHit.value = true
                 const interval = setInterval(() => {
                     top.value = top.value + 10

@@ -87,7 +87,7 @@ export default {
             }
             if (gameStore.monsterHit === true && attacking.value === false) {
                 attacking.value = true
-                hit.value = (Math.floor(Math.random() * ((userStore.user.str + gameStore.userStrFromItems) - 2) + 2))
+                hit.value = (Math.floor(Math.random() * ((userStore.user.str + gameStore.userStrFromItems) - Math.floor(userStore.user.str / 2)) + Math.floor(userStore.user.str / 2)))
                 gameStore.monsterLife = gameStore.monsterLife - hit.value
                 showHit.value = true
 

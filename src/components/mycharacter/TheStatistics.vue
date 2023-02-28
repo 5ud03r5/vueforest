@@ -59,7 +59,12 @@ export default {
         gameStore.userStrFromItems = str.value
         gameStore.userMpowerFromItems = mpower.value
         watch(gameStore, () => {
-            life.value = gameStore.userLife
+            if (gameStore.userLife <= 0) {
+                life.value = 0
+            } else {
+                life.value = gameStore.userLife
+            }
+
         })
         return { backStat, imgClass, data, life, str, mpower }
     }
