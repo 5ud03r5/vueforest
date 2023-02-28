@@ -1,10 +1,10 @@
 # STATUS
 
-Early development
+Development
 
 # game
 
-Vue based browser rpg social game
+Vue based browser rpg game
 
 
 
