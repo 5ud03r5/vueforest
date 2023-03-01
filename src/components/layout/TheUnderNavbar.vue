@@ -1,6 +1,5 @@
 <template>
-    <ul
-        class="flex pl-7 pr-7 pb-2 space-x-10 bg-gradient-to-r from-gray-800 via-gray-200 to-gray-800 justify-center flex-wrap">
+    <ul class="flex pl-7 pr-7 pb-2 space-x-10  bg-[#cee6cf] justify-center flex-wrap">
         <li>
 
             <RouterLink to="/arena" :class="linkClass"><img :class="imageClass" src="../../assets/warlord-helmet.svg" />

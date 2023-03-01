@@ -1,10 +1,9 @@
 <template>
-    <div
-        class="flex flex-col text-white bg-gradient-to-r from-gray-500 via-gray-400 to-gray-400 p-5 w-96 shadow-2xl rounded-md">
+    <div class="flex flex-col animate-fade text-white h-max mt-20 bg-[#cbe3cb]  p-5 w-96 shadow-2xl rounded-md">
         <form @submit.prevent="login">
             <div>
                 <div class="flex justify-center mb-5">
-                    <h2 class="text-2xl text-gray-800 font-extrabold register">Login</h2>
+                    <h2 class="text-2xl text-gray-800 font-extrabold ">Login</h2>
                 </div>
                 <hr class="mb-5">
 
@@ -46,15 +45,17 @@ export default {
         const login = async () => {
             if (email.value.value.includes('@') && password1.value.value.trim().length > 0) {
                 try {
-                    await signInWithEmailAndPassword(auth, email.value.value, password1.value.value)
-
+                    userStore.userId = await signInWithEmailAndPassword(auth, email.value.value, password1.value.value)
                 } catch (error) {
                     console.log(error)
                     alert('An upexpected error occured. Please try ag1ain later.')
                     return;
                 }
+
                 userStore.userLoggedIn = true
-                router.push('/arena')
+
+
+                router.push('/')
             } else {
                 alert('Email or password invalid')
             }

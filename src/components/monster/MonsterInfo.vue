@@ -20,8 +20,8 @@
 import { ref, watch } from 'vue'
 import { useGameStore } from '../../stores/game';
 export default {
-    props: ['data', 'level'],
-    setup(props) {
+
+    setup() {
         const gameStore = useGameStore()
         const monsterLevel = ref(gameStore.monsterLevel)
         const gameInProgress = ref(gameStore.gameInProgress)

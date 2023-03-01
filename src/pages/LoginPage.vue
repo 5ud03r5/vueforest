@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-center">
+    <div class="flex justify-center bg-[url('@/assets/game/bg_forest.png')] h-[720px]">
         <LoginForm></LoginForm>
     </div>
 </template>

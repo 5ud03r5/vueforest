@@ -69,36 +69,43 @@
     </div>
 </template>
 
-<script setup>
+<script>
 import { ref, reactive } from 'vue';
 import { useUserStore } from '../../stores/user';
-const showItem = ref(false)
-const userStore = useUserStore()
-const clickedItem = ref(null)
-const equipment = reactive(userStore.user.equipment)
-const top = ref(null)
-const left = ref(null)
 
-const setHideItem = () => {
-    showItem.value = false
+export default {
+    props: ['data'],
+    setup(props) {
+        const showItem = ref(false)
+
+        const clickedItem = ref(null)
+
+        const top = ref(null)
+        const left = ref(null)
+
+        const setHideItem = () => {
+            showItem.value = false
+        }
+
+        const setShowItem = (event, value) => {
+            top.value = event.pageY
+            left.value = event.pageX + 10
+
+            clickedItem.value = Object.fromEntries(
+                Object.entries(props.data.equipment)
+                    .filter(([_, item]) => item.name === value)
+                    .map(([key, item]) => [key, { ...item }])
+            )
+            clickedItem.value = Object.values(clickedItem.value)[0]
+
+            showItem.value = true
+        }
+
+
+
+        const itemClass = ref('bg-gray-200 m-1 hover:cursor-pointer hover:bg-white')
+        return { itemClass, setShowItem, clickedItem, setHideItem, showItem, top, left }
+    }
 }
-
-const setShowItem = (event, value) => {
-    top.value = event.pageY
-    left.value = event.pageX + 10
-
-    clickedItem.value = Object.fromEntries(
-        Object.entries(equipment)
-            .filter(([_, item]) => item.name === value)
-            .map(([key, item]) => [key, { ...item }])
-    )
-    clickedItem.value = Object.values(clickedItem.value)[0]
-
-    showItem.value = true
-}
-
-
-
-const itemClass = ref('bg-gray-200 m-1 hover:cursor-pointer hover:bg-white')
 
 </script>

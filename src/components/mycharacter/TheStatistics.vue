@@ -28,6 +28,7 @@
 import { ref, watch } from 'vue';
 import { useGameStore } from '../../stores/game';
 import { useUserStore } from '../../stores/user';
+import { useQueryClient } from 'vue-query';
 export default {
     props: ['data'],
     setup(props) {
@@ -35,29 +36,34 @@ export default {
         const gameStore = useGameStore()
         const backStat = ref('flex items-center space-x-1')
         const imgClass = ref('h-6')
-        const data = userStore.user
+        const data = ref(props.data)
         const life = ref(gameStore.userLife)
         const str = ref(0)
         const mpower = ref(0)
         const armor = ref(0)
+        const queryClient = useQueryClient()
+
 
 
         gameStore.charData = props.data
+
         Object.values(Object.fromEntries(
-            Object.entries(userStore.user.equipment)
+            Object.entries(props.data.equipment)
                 .filter(([_, item]) => item.def)
                 .map(([key, item]) => [key, { ...item }]))).map(item => armor.value = armor.value + item.def)
         Object.values(Object.fromEntries(
-            Object.entries(userStore.user.equipment)
+            Object.entries(props.data.equipment)
                 .filter(([_, item]) => item.str)
                 .map(([key, item]) => [key, { ...item }]))).map(item => str.value = str.value + item.str)
         Object.values(Object.fromEntries(
-            Object.entries(userStore.user.equipment)
+            Object.entries(props.data.equipment)
                 .filter(([_, item]) => item.mp)
                 .map(([key, item]) => [key, { ...item }]))).map(item => mpower.value = mpower.value + item.mp)
         gameStore.userArmorFromItems = armor.value
         gameStore.userStrFromItems = str.value
         gameStore.userMpowerFromItems = mpower.value
+
+
         watch(gameStore, () => {
             if (gameStore.userLife <= 0) {
                 life.value = 0

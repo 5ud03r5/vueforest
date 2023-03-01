@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-col">
-        <div class="mx-auto bg-gray-800 text-white p-2 rounded-sm shadow-xl">Training points : 10</div>
+    <div class="flex flex-col bg-[url('@/assets/game/bg_forest.png')] h-[720px]">
+        <div class="mx-auto bg-gray-800 text-white p-2 rounded-sm shadow-xl mt-10">Training points : 10</div>
         <div class="mx-auto">
             <TrainingItem v-for="item in trainingItems" :key="item" :trainingItem="item"></TrainingItem>
         </div>

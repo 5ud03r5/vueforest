@@ -1,7 +1,7 @@
 <template>
     <div>
-        <img class=" w-[1150px] " src="@/assets/game/bg_forest.png" />
-        <div class="relative">
+
+        <div class="relative mt-[450px]">
             <CharacterChamp />
             <MonsterChamp></MonsterChamp>
         </div>

@@ -1,10 +1,10 @@
 <template>
     <div
-        class="flex flex-col text-white bg-gradient-to-r from-gray-500 via-gray-400 to-gray-400 p-5 w-96 shadow-2xl rounded-md">
+        class="flex flex-col text-gray-800 text-white animate-fade mt-10 h-max mt-20 bg-[#cbe3cb] p-5 w-96 shadow-2xl rounded-md ">
         <form @submit.prevent="register">
-            <div>
+            <div class="text-gray-800">
                 <div class="flex justify-center mb-5">
-                    <h2 class="text-2xl text-gray-800 font-extrabold register">Register</h2>
+                    <h2 class="text-2xl text-gray-800 font-extrabold ">Register</h2>
                 </div>
                 <hr class="mb-5">
                 <div>
@@ -15,12 +15,12 @@
                 <input :class="registerClass" type="text" ref="email" placeholder="Enter email..." />
             </div>
             <div>
-                <div><label>Password</label></div>
+                <div><label class="text-gray-800">Password</label></div>
                 <input :class="registerClass" type="password" ref="password1" placeholder="Enter password..." />
             </div>
             <div>
 
-                <div><label>Confirm password</label></div>
+                <div><label class="text-gray-800">Confirm password</label></div>
                 <input :class="registerClass" type="password" ref="password2" placeholder="Confirm password..." />
             </div>
             <div class="flex justify-end">
@@ -72,7 +72,7 @@ export default {
 
                         userStore.userLoggedIn = true
 
-                        router.push('/arena')
+                        router.push('/')
 
                     } catch (e) {
                         console.error("Error adding document: ", e);

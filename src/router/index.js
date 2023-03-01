@@ -6,10 +6,16 @@ import RegistrationPage from "../pages/RegistrationPage.vue";
 import LoginPage from "../pages/LoginPage.vue";
 import { useUserStore } from "../stores/user";
 import { auth } from "../includes/firebase";
+import HomePage from "../pages/HomePage.vue";
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
+    {
+      path: "/",
+      component: HomePage,
+      meta: { requiresAuth: false },
+    },
     {
       path: "/arena",
       component: ArenaPage,
@@ -30,21 +36,20 @@ const router = createRouter({
     {
       path: "/register",
       component: RegistrationPage,
-      meta: { requiresAuth: false },
     },
-    { path: "/login", component: LoginPage, meta: { requiresAuth: false } },
+    { path: "/login", component: LoginPage },
+    { path: "/:notFound(.*)", redirect: "/" },
   ],
 });
 
-router.beforeEach((to) => {
+router.beforeEach((to, from) => {
   const store = useUserStore();
   if (to.meta.requiresAuth && !store.userLoggedIn) {
     if (auth.currentUser) {
       store.userLoggedIn = true;
+      return to.fullPath;
     }
     return "/login";
-  } else if (!to.meta.requiresAuth && store.userLoggedIn) {
-    return to.redirectedFrom.fullPath;
   }
 });
 

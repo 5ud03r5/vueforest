@@ -1,7 +1,7 @@
 <template>
   <TheNavbar></TheNavbar>
-  <TheUnderNavbar class="pt-16"></TheUnderNavbar>
-  <RouterView class="mt-10"></RouterView>
+
+  <RouterView class="bg-[url('@/assets/game/bg_forest.png')] h-[720px]"></RouterView>
 </template>
 
 <script>
@@ -32,21 +32,26 @@ export default {
     TheUnderNavbar
   },
   setup() {
-    const docRef = doc(db, "users", auth.currentUser.uid);
-    const useCharacterQuery = () => {
-      return useQuery(["users", auth.currentUser.uid], () => getSnap(docRef));
-    }
-    const { isLoading, data } = useCharacterQuery();
-    provide('data', data)
-    provide('isLoading', isLoading)
     const userStore = useUserStore()
-    const gameStore = useGameStore()
-    userStore.user = data;
+    if (auth.currentUser) {
+
+      const docRef = doc(db, "users", auth.currentUser.uid);
+      const useCharacterQuery = () => {
+        return useQuery(["users"], () => getSnap(docRef));
+      }
+      const { isLoading, data } = useCharacterQuery();
+      userStore.user = data;
+
+    }
 
 
 
-    return { loggedIn: userStore.userLoggedIn }
+
+
+
   }
+
+
 }
 </script>
 
