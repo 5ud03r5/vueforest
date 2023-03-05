@@ -3,18 +3,6 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { collection } from "firebase/firestore";
 
-/* const firebaseConfig = {
-  apiKey: "AIzaSyB25Unyl8j60czijd93Hfsu8ztnFxE9rqM",
-  authDomain: "vueforest-341ed.firebaseapp.com",
-  databaseURL:
-    "https://vueforest-341ed-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "vueforest-341ed",
-  storageBucket: "vueforest-341ed.appspot.com",
-  messagingSenderId: "589818863002",
-  appId: "1:589818863002:web:91b9261f273fb48ec66e23",
-  measurementId: "G-RZMHDTLSDG",
-}; */
-
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
