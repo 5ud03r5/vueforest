@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col animate-fade text-white h-max mt-20 bg-[#cbe3cb]  p-5 w-96 shadow-2xl rounded-md">
+    <div class="flex flex-col animate-fade1 text-black h-max mt-20 bg-[#cbe3cb]  p-5 w-96 shadow-2xl rounded-md">
         <form @submit.prevent="login">
             <div>
                 <div class="flex justify-center mb-5">
@@ -16,7 +16,8 @@
             </div>
 
             <div class="flex justify-end">
-                <button class="bg-gray-900 p-2 mt-5 hover:rounded-lg hover:bg-gray-800 rounded-sm hover:shadow-xl"
+                <button
+                    class="bg-gray-900 p-2 mt-5 hover:rounded-lg hover:bg-gray-800 rounded-sm text-white hover:shadow-xl"
                     type="submit">Login</button>
             </div>
         </form>
@@ -36,9 +37,6 @@ export default {
     setup() {
         const email = ref(null)
         const password1 = ref(null)
-
-        const userCred = ref(null)
-
         const userStore = useUserStore()
         const router = useRouter();
 

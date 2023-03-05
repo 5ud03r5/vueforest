@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-center space-x-10" @kedown.space="setJump">
+    <div class="flex justify-center space-x-10">
 
         <div v-if="!isLoading"
             class=" justify-center space-y-3  bg-gradient-to-b from-gray-800 to-gray-900 h-max w-max p-5 rounded-xl shadow-xl">
@@ -46,11 +46,12 @@ import CharacterInfo from '../components/mycharacter/CharacterInfo.vue';
 import TheEquipment from '../components/mycharacter/TheEquipment.vue';
 import TheStatistics from '../components/mycharacter/TheStatistics.vue';
 import MonsterInfo from '../components/monster/MonsterInfo.vue'
-import { ref, watch, inject } from 'vue'
+import { ref, watch } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router';
 import { useQueryClient, useQuery } from 'vue-query';
+
 import TheGame from '../components/game/TheGame.vue';
-import MonsterEquipment from '../components/monster/MonsterEquipment.vue'
+import { storeToRefs } from 'pinia';
 import MonsterStatistics from '../components/monster/MonsterStatistics.vue'
 import { getDoc, doc } from '@firebase/firestore';
 import { db, auth } from '../includes/firebase';
@@ -75,7 +76,6 @@ export default {
         CharacterInfo,
         TheGame,
         MonsterInfo,
-        MonsterEquipment,
         MonsterStatistics,
         ModalDisplay
     },
@@ -83,8 +83,9 @@ export default {
     setup() {
         const monsterType = ref('bandit')
 
+        const queryClient = useQueryClient()
         const gameStore = useGameStore()
-        const gameover = ref(false)
+        const { gameover, gameInProgress } = storeToRefs(gameStore)
 
         const docRef = doc(db, "users", auth.currentUser.uid);
         const useCharacterQuery = () => {
@@ -92,34 +93,27 @@ export default {
         }
         const { isLoading, data } = useCharacterQuery();
 
-        const setJump = () => {
-
-        }
-        watch(gameStore, () => {
-            if (gameStore.userLife <= 0) {
-                gameover.value = true
-            }
-        })
         const modalClose = () => {
-            gameover.value = false
-
-            gameStore.resetValues()
+            gameStore.resetOnCloseModalValues()
         }
         onBeforeRouteLeave((to, from, next) => {
-            if (gameStore.gameInProgress) {
+            if (gameInProgress.value) {
                 const userWantsToLeave = confirm('Are you sure wanna leave the arena? All your data will be lost.')
                 if (userWantsToLeave) {
                     gameStore.resetValues()
                 }
                 next(userWantsToLeave)
             }
+            queryClient.invalidateQueries(["users"]);
+            gameStore.resetValues()
             next()
 
 
         })
 
 
-        return { data, isLoading, setJump, monsterType, gameover, modalClose }
+
+        return { data, isLoading, monsterType, gameover, modalClose }
 
     }
 

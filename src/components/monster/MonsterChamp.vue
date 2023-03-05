@@ -16,6 +16,7 @@ import { ref, watch } from 'vue';
 import { useGameStore } from '@/stores/game';
 import { useUserStore } from '../../stores/user';
 import { onBeforeRouteLeave } from 'vue-router';
+import { storeToRefs } from 'pinia';
 export default {
     setup() {
         const userStore = useUserStore()
@@ -31,8 +32,10 @@ export default {
         const hit = ref(0)
 
         const monsterPic = ref("/src/assets/game/ninja/" + charState.value + "_" + counter.value + ".png")
-        onBeforeRouteLeave(() => { clearInterval(intervalMain), console.log('here') })
+        onBeforeRouteLeave(() => { clearInterval(intervalMain) })
 
+
+        const { turn, actionInProgress, gameover, userStrFromItems, monsterLife, monsterHit, playerHit } = storeToRefs(gameStore)
 
         let round = 0
         const intervalMain = setInterval(() => {
@@ -56,17 +59,17 @@ export default {
 
                     round = 0
                     right.value = 20
-                    gameStore.turn = 'user'
+                    turn.value = 'user'
                     charState.value = 'idle'
                     topMonst.value = 175
-                    gameStore.actionInProgress = false
+                    actionInProgress.value = false
 
                 }
             }
             counter.value++;
             if (counter.value > 9) {
                 if (charState.value === "attack") {
-                    gameStore.playerHit = true
+                    playerHit.value = true
                     topMonst.value = 168
                     charState.value = "runback";
 
@@ -79,25 +82,34 @@ export default {
         watch(counter, () => {
             monsterPic.value = "/src/assets/game/ninja/" + charState.value + "_" + counter.value + ".png"
         })
-        watch(gameStore, () => {
 
-            if (gameStore.turn === 'monster' && charState.value === 'idle') {
-                console.log(gameStore.turn)
+
+        watch(gameover, () => {
+            if (gameover.value === true) {
+                charState.value = 'idle'
+
+            }
+        })
+
+        watch(turn, () => {
+            if (turn.value === 'monster' && charState.value === 'idle' && gameover.value === false) {
                 setAttack()
             }
-            if (gameStore.monsterHit === true && attacking.value === false) {
-                attacking.value = true
-                hit.value = (Math.floor(Math.random() * ((userStore.user.str + gameStore.userStrFromItems) - Math.floor(userStore.user.str / 2)) + Math.floor(userStore.user.str / 2)))
-                gameStore.monsterLife = gameStore.monsterLife - hit.value
-                showHit.value = true
+        })
 
+        watch(monsterHit, () => {
+
+            if (monsterHit.value === true && gameover.value === false) {
+                console.log(userStore.user)
+                hit.value = (Math.floor(Math.random() * ((userStore.user.str + userStrFromItems.value) - Math.floor(userStore.user.str / 2)) + Math.floor(userStore.user.str / 2)))
+                monsterLife.value = monsterLife.value - hit.value
+                showHit.value = true
                 const interval = setInterval(() => {
                     top.value = top.value + 10
                     opacity.value = opacity.value - 0.1
                     if (top.value === 350) {
                         showHit.value = false
-                        gameStore.monsterHit = false
-                        attacking.value = false
+                        monsterHit.value = false
                         top.value = 250
                         opacity.value = 1
                         clearInterval(interval)

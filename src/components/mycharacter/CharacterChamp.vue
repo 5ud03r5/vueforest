@@ -32,6 +32,7 @@ import { ref, watch } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { useGameStore } from '@/stores/game'
 import { useUserStore } from '../../stores/user';
+import { storeToRefs } from 'pinia';
 export default {
     setup() {
         const userStore = useUserStore()
@@ -41,7 +42,6 @@ export default {
         let round = 1
         const heal = ref(0)
         const hit = ref(null)
-        const actionInProgress = ref(false)
         const top = ref(250)
         const showHit = ref(false)
         const opacity = ref(1)
@@ -50,25 +50,31 @@ export default {
         const showHeal = ref(false)
         const charClass = ref('absolute h-44 top-[-163px]')
         onBeforeRouteLeave(() => { clearInterval(intervalMain), console.log('here') })
+
+        const { gameInProgress, userMpowerFromItems, userLife, turn, monsterHit, actionInProgress, gameover, playerHit, monsterStr, userArmorFromItems } = storeToRefs(gameStore)
+
+
         const setJump = (event) => {
             console.log(event);
         };
         const setAttack = (event) => {
             actionInProgress.value = true
-            gameStore.gameInProgress = true
+            gameInProgress.value = true
             charState.value = "run";
+
         }
 
         const setHeal = () => {
             actionInProgress.value = true
-            gameStore.gameInProgress = true
-            gameStore.turn = 'monster'
-            heal.value = (Math.floor(Math.random() * ((userStore.user.mpower + gameStore.userMpowerFromItems) - 2) + 2))
-            if ((gameStore.userLife + heal.value) > 100) {
-                gameStore.userLife = 100
+            gameInProgress.value = true
+            turn.value = 'monster'
+            heal.value = (Math.floor(Math.random() * ((userStore.user.mpower + userMpowerFromItems.value) - 2) + 2))
+            if ((userLife.value + heal.value) > 100) {
+                userLife.value = 100
             } else {
-                gameStore.userLife = gameStore.userLife + heal.value
+                userLife.value = userLife.value + heal.value
             }
+
             showHeal.value = true
             const intervalHeal = setInterval(() => {
                 top.value = top.value + 10
@@ -101,8 +107,7 @@ export default {
                     charState.value = 'idle'
                     round = 0
                     left.value = 0
-                    console.log(gameStore.turn)
-                    gameStore.turn = 'monster'
+                    turn.value = 'monster'
 
 
                 }
@@ -110,7 +115,7 @@ export default {
             counter.value++;
             if (counter.value > 9) {
                 if (charState.value === "attack") {
-                    gameStore.monsterHit = true
+                    monsterHit.value = true
 
                     charState.value = "runback";
 
@@ -125,25 +130,30 @@ export default {
         watch(counter, () => {
             charPic.value = "/src/assets/game/knight/" + charState.value + "_" + counter.value + ".png";
         });
-        watch(gameStore, () => {
-            if (gameStore.actionInProgress === false) {
-                actionInProgress.value = false
-                gameStore.actionInProgress = true
+
+        watch(gameover, () => {
+            if (gameover.value === true) {
+                charState.value = 'idle'
+                left.value = 0
+                round = 0
             }
-            if (gameStore.playerHit === true && attacking.value === false) {
+        })
+
+        watch(playerHit, () => {
+            if (playerHit.value === true && attacking.value === false && gameover.value === false) {
                 attacking.value = true
-                hit.value = (Math.floor(Math.random() * (gameStore.monsterStr - Math.floor(gameStore.monsterStr / 2)) + Math.floor(gameStore.monsterStr / 2)))
-                let firstCombatAction = gameStore.userArmorFromItems - hit.value
+                hit.value = (Math.floor(Math.random() * (monsterStr.value - Math.floor(monsterStr.value / 2)) + Math.floor(monsterStr.value / 2)))
+                let firstCombatAction = userArmorFromItems.value - hit.value
                 if (firstCombatAction > 0) {
                     if (hit.value - firstCombatAction < 0) {
                         hit.value = 0
                     } else {
-                        hit.value = hit.value - (gameStore.userArmorFromItems - hit.value)
+                        hit.value = hit.value - (userArmorFromItems.value - hit.value)
 
 
                     }
                 }
-                gameStore.userLife = gameStore.userLife - hit.value
+                userLife.value = userLife.value - hit.value
 
 
 
@@ -155,7 +165,7 @@ export default {
                         showHit.value = false
                         top.value = 250
                         opacity.value = 1
-                        gameStore.playerHit = false
+                        playerHit.value = false
                         attacking.value = false
                         clearInterval(interval)
                     }

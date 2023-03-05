@@ -7,7 +7,7 @@ import {
   arrayUnion,
   getDoc,
 } from "@firebase/firestore";
-import { postsCollection, db } from "../includes/firebase";
+import { postsCollection, db, auth } from "../includes/firebase";
 
 ("");
 
@@ -63,6 +63,41 @@ const useAddComment = async (array) => {
   }
 };
 
+const useUpdateStr = async (value) => {
+  try {
+    return await updateDoc(doc(db, "users", auth.currentUser.uid), {
+      str: value[0],
+      unspent: value[1],
+    });
+  } catch (e) {
+    console.error("Error updating stat: ", e);
+  }
+};
+
+const useUpdateMp = async (value) => {
+  try {
+    return await updateDoc(doc(db, "users", auth.currentUser.uid), {
+      mpower: value[0],
+      unspent: value[1],
+    });
+  } catch (e) {
+    console.error("Error updating stat: ", e);
+  }
+};
+
+const useUpdateExp = async (values) => {
+  console.log(values);
+  try {
+    return await updateDoc(doc(db, "users", auth.currentUser.uid), {
+      exp: values[0],
+      level: values[1],
+      unspent: values[2],
+    });
+  } catch (e) {
+    console.error("Error updating info: ", e);
+  }
+};
+
 const useGetPost = async (post) => {
   try {
     const querySnap = await getDoc(doc(db, "posts", post));
@@ -83,4 +118,7 @@ export {
   useAddComment,
   useGetPost,
   useGetSnap,
+  useUpdateMp,
+  useUpdateStr,
+  useUpdateExp,
 };

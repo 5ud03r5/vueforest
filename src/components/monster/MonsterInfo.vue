@@ -19,29 +19,22 @@
 
 import { ref, watch } from 'vue'
 import { useGameStore } from '../../stores/game';
+import { storeToRefs } from 'pinia';
 export default {
 
     setup() {
         const gameStore = useGameStore()
-        const monsterLevel = ref(gameStore.monsterLevel)
-        const gameInProgress = ref(gameStore.gameInProgress)
+
+        const { monsterLevel, gameInProgress, monsterStr, monsterExp } = storeToRefs(gameStore)
         const increaseLevel = () => {
             if (monsterLevel.value === 100) {
                 return;
             }
-            gameStore.monsterLevel++
-
-            gameStore.monsterStr = gameStore.monsterStr + 2
-            gameStore.monsterExp = gameStore.monsterExp + 3
-            monsterLevel.value = gameStore.monsterLevel
+            monsterLevel.value++
+            monsterStr.value = monsterStr.value + 2
+            monsterExp.value = monsterExp.value + 3
 
         }
-        watch(gameStore, () => {
-            console.log('game in', gameStore.gameInProgress)
-            gameInProgress.value = gameStore.gameInProgress
-            monsterLevel.value = gameStore.monsterLevel
-
-        })
 
         return { monsterLevel, increaseLevel, gameInProgress }
 

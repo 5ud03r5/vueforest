@@ -1,19 +1,19 @@
 <template>
   <TheNavbar></TheNavbar>
 
-  <RouterView class="bg-[url('@/assets/game/bg_forest.png')] h-[720px]"></RouterView>
+  <RouterView class="bg-[url('@/assets/game/bg_forest.png')] h-[720px] "></RouterView>
 </template>
 
 <script>
 import TheNavbar from './components/layout/TheNavbar.vue';
-import TheUnderNavbar from './components/layout/TheUnderNavbar.vue';
+
 import { useUserStore } from './stores/user';
-import { useGameStore } from './stores/game';
+
 import { useQueryProvider } from "vue-query";
 import { doc, getDoc } from "firebase/firestore";
 import { db, auth } from '@/includes/firebase';
 import { useQuery } from "vue-query";
-import { provide } from 'vue'
+
 
 useQueryProvider();
 
@@ -29,7 +29,6 @@ const getSnap = async (docRef) => {
 export default {
   components: {
     TheNavbar,
-    TheUnderNavbar
   },
   setup() {
     const userStore = useUserStore()
@@ -39,7 +38,7 @@ export default {
       const useCharacterQuery = () => {
         return useQuery(["users"], () => getSnap(docRef));
       }
-      const { isLoading, data } = useCharacterQuery();
+      const { data } = useCharacterQuery();
       userStore.user = data;
 
     }

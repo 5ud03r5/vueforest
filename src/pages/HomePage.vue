@@ -37,7 +37,7 @@ const counter = ref(1)
 const counterChange = ref(0)
 const img = ref('runback')
 if (auth.currentUser) {
-    buttonValue.value = 'Explore'
+    buttonValue.value = 'Go to Arena'
     linkTo.value = '/arena'
 } else {
     buttonValue.value = 'Login'

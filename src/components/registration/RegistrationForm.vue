@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex flex-col text-gray-800 text-white animate-fade mt-10 h-max mt-20 bg-[#cbe3cb] p-5 w-96 shadow-2xl rounded-md ">
+        class="flex flex-col text-gray-800 text-white animate-fade1 mt-10 h-max mt-20 bg-[#cbe3cb] p-5 w-96 shadow-2xl rounded-md ">
         <form @submit.prevent="register">
             <div class="text-gray-800">
                 <div class="flex justify-center mb-5">
@@ -60,11 +60,12 @@ export default {
                     try {
                         await setDoc(doc(db, 'users', userCred.value.user.uid), {
                             email: email.value.value, nickname: nickname.value.value,
+                            exp: 0, unspent: 0,
                             equipment: {
-                                necklace: { name: 'necklace', rank: 'basic', mp: 1 }, helmet: { name: 'helmet', rank: 'basic', def: 1 }, earrings: { name: 'earrings', rank: 'basic', mp: 1 },
-                                armor: { name: 'armor', rank: 'basic', def: 3 }, main: { name: 'main', rank: 'basic', str: 1 }, off: { name: 'off', rank: 'basic', def: 2 },
-                                ringFirst: { name: 'ringFirst', rank: 'basic', mp: 1 }, legs: { name: 'legs', rank: 'basic', def: 2 },
-                                ringSecond: { name: 'ringSecond', rank: 'basic', mp: 1 }, gloves: { name: 'gloves', rank: 'basic', def: 1 }, boots: { name: 'boots', rank: 'basic', def: 1 }
+                                a1necklace: { name: 'necklace', rank: 'basic', mp: 1 }, a2helmet: { name: 'helmet', rank: 'basic', def: 1 }, a3earrings: { name: 'earrings', rank: 'basic', mp: 1 },
+                                a5armor: { name: 'armor', rank: 'basic', def: 3 }, a4main: { name: 'main', rank: 'basic', str: 1 }, a6off: { name: 'off', rank: 'basic', def: 2 },
+                                a7ringFirst: { name: 'ringFirst', rank: 'basic', mp: 1 }, a8legs: { name: 'legs', rank: 'basic', def: 2 },
+                                a9ringSecond: { name: 'ringSecond', rank: 'basic', mp: 1 }, zagloves: { name: 'gloves', rank: 'basic', def: 1 }, zboots: { name: 'boots', rank: 'basic', def: 1 }
                             },
                             level: 1, str: 5, mpower: 5, stamina: 100, mp: 100, hp: 100, cp: 0, tp: 0
                         });
