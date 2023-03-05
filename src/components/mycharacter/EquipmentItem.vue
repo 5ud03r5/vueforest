@@ -10,7 +10,7 @@ export default {
     setup(props) {
 
         const imgSource = ref("/src/assets/" + props.item.name + ".svg")
-        const itemClass = ref('bg-gray-200 m-1 hover:cursor-pointer hover:bg-white')
+        const itemClass = ref('bg-gray-200 m-1 hover:cursor-pointer hover:bg-white relative')
         return { itemClass, imgSource }
     }
 }

@@ -25,9 +25,6 @@
             <li title="health points" :class="backStat"><img :class="imgClass" src="../../assets/hp.svg" />
                 <div class="bg-red-600 h-5 rounded-xl" :style="{ width: life + 'px' }"></div><span>{{ life }}</span>
             </li>
-            <li title="mana points" :class="backStat"><img :class="imgClass" src="../../assets/mp.svg" />
-                <div class="bg-blue-600 h-5 rounded-xl" :style="{ width: data.mp + 'px' }"></div><span>{{ data.mp }}</span>
-            </li>
         </ul>
     </div>
 </template>
@@ -35,7 +32,6 @@
 <script >
 import { ref, watch } from 'vue';
 import { useGameStore } from '../../stores/game';
-import { useUserStore } from '../../stores/user';
 import { storeToRefs } from 'pinia';
 export default {
     props: ['data'],

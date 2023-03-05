@@ -67,7 +67,7 @@ export default {
                                 a7ringFirst: { name: 'ringFirst', rank: 'basic', mp: 1 }, a8legs: { name: 'legs', rank: 'basic', def: 2 },
                                 a9ringSecond: { name: 'ringSecond', rank: 'basic', mp: 1 }, zagloves: { name: 'gloves', rank: 'basic', def: 1 }, zboots: { name: 'boots', rank: 'basic', def: 1 }
                             },
-                            level: 1, str: 5, mpower: 5, stamina: 100, mp: 100, hp: 100, cp: 0, tp: 0
+                            level: 1, str: 5, mpower: 5, hp: 100, cp: 0
                         });
 
 

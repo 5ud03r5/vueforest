@@ -16,7 +16,7 @@
                 <img title="attack" @click="setAttack" class="h-16 hover:cursor-pointer"
                     src="@/assets/game/knight/attack.svg" />
                 <img title="heal" @click="setHeal" class="h-16 hover:cursor-pointer" src="@/assets/game/knight/block.svg" />
-                <img title="super attack" class="h-16 hover:cursor-pointer" src="@/assets/game/knight/super.svg" />
+
             </div>
 
         </div>

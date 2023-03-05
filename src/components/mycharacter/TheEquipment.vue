@@ -2,8 +2,14 @@
     <div class="flex space-y-2 flex-col relative">
         <div name="equipment" class="bg-gray-600  rounded-md p-4 shadow-xl w-[178px]">
             <div class="flex flex-wrap">
-                <EquipmentItem :name="item.name" v-for="item in sortedEq" :key="item" :item="item" @mouseleave="setHideItem"
-                    @mouseenter="setShowItem($event, item.name)"></EquipmentItem>
+                <EquipmentItem class="relative" :name="item.name" v-for="item in sortedEq" :key="item" :item="item"
+                    @mouseleave="setHideItem" @mouseenter="setShowItem($event, item.name)">
+                </EquipmentItem>
+                <div v-if="showUpgrade"
+                    class=" hover: cursor-pointer bg-cyan-400 text-white p-2 absolute shadow-xl rounded-xl left-[50px] top-[-4px] flex space-x-4">
+                    <div>Upgrade</div>
+
+                </div>
             </div>
 
         </div>
@@ -19,15 +25,16 @@
 
                 </div>
             </div>
+
         </teleport>
+
 
 
     </div>
 </template>
 
 <script>
-import { ref, computed, reactive } from 'vue';
-import { useUserStore } from '../../stores/user';
+import { ref, computed } from 'vue';
 import EquipmentItem from './EquipmentItem.vue';
 
 export default {
@@ -40,12 +47,15 @@ export default {
         const clickedItem = ref(null);
         const top = ref(null);
         const left = ref(null);
-        const equipment = reactive(props.data.equipment);
+        const showUpgrade = ref(false)
+
+        const setUpgrade = (event, item) => {
+            showUpgrade.value = !showUpgrade.value
+        }
         const setHideItem = () => {
             showItem.value = false;
         };
-        const setUpgrade = () => {
-        };
+
         const sortedEq = computed(() => {
             return Object.fromEntries(Object.entries(props.data.equipment).sort())
         })
@@ -59,7 +69,7 @@ export default {
             showItem.value = true;
         };
         const itemClass = ref("bg-gray-200 m-1 hover:cursor-pointer hover:bg-white");
-        return { itemClass, setShowItem, clickedItem, setHideItem, showItem, top, left, setUpgrade, sortedEq };
+        return { itemClass, setShowItem, clickedItem, setHideItem, showItem, top, left, sortedEq, setUpgrade, showUpgrade };
     },
     components: { EquipmentItem }
 }
