@@ -16,7 +16,7 @@ const useGetSnap = async (docRef) => {
   if (docSnap.exists()) {
     return docSnap.data();
   } else {
-    console.log("Document does no exist");
+    console.error("Document does no exist");
   }
 };
 
@@ -86,7 +86,6 @@ const useUpdateMp = async (value) => {
 };
 
 const useUpdateExp = async (values) => {
-  console.log(values);
   try {
     return await updateDoc(doc(db, "users", auth.currentUser.uid), {
       exp: values[0],
