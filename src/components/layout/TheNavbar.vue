@@ -20,7 +20,7 @@ const linkClass = ref('text-gray-900 font-black hover:text-cyan-900 p-4')
 const homeLinkClass = ref('text-gray-900 font-black hover:text-cyan-900 hover:bg-gray-200 hover:shadow-xl p-3 border-4 rounded-2xl')
 const userStore = useUserStore()
 const router = useRouter()
-console.log(userStore.userLoggedIn)
+
 const logout = async () => {
     await auth.signOut()
     userStore.userLoggedIn = false

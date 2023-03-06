@@ -32,9 +32,7 @@ export default {
   },
   setup() {
     const userStore = useUserStore()
-    console.log(auth.currentUser)
     if (auth.currentUser) {
-
       const docRef = doc(db, "users", auth.currentUser.uid);
       const useCharacterQuery = () => {
         return useQuery(["users"], () => getSnap(docRef));

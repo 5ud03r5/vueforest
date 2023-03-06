@@ -1,7 +1,7 @@
 <template>
     <div class="relative" @mouseenter="displayActions = true" @click="displayActions = true"
         @mouseleave="displayActions = false">
-        <img :class="charClass" :src='charPic' :style="{ left: left ? left + 'px' : null }" />
+        <img :class="charClass" :src='getImageUrl(charState, counter)' :style="{ left: left ? left + 'px' : null }" />
         <div v-if="showHit" class="absolute z-[2000] text-red-800 text-[50px] font-black h-max w-max p-2"
             :style="{ top: -top + 'px', opacity: opacity }">
             {{ hit === 0 ? 'Miss' : '-' + hit }}
@@ -46,7 +46,7 @@ export default {
         const showHit = ref(false)
         const opacity = ref(1)
         const gameStore = useGameStore()
-        const charState = ref('idle');
+        const charState = ref('Idle');
         const showHeal = ref(false)
         const charClass = ref('absolute h-44 top-[-163px]')
         onBeforeRouteLeave(() => { clearInterval(intervalMain), console.log('here') })
@@ -104,7 +104,7 @@ export default {
                 left.value = round
                 if (left.value < 10) {
                     counter.value = 1;
-                    charState.value = 'idle'
+                    charState.value = 'Idle'
                     round = 0
                     left.value = 0
                     turn.value = 'monster'
@@ -112,7 +112,6 @@ export default {
 
                 }
             }
-            counter.value++;
             if (counter.value > 9) {
                 if (charState.value === "attack") {
                     monsterHit.value = true
@@ -123,6 +122,8 @@ export default {
                 counter.value = 1;
 
             }
+            counter.value++;
+
         }, 40);
 
 
@@ -135,7 +136,7 @@ export default {
 
         watch(gameover, () => {
             if (gameover.value === true) {
-                charState.value = 'idle'
+                charState.value = 'Idle'
                 left.value = 0
                 round = 0
             }
@@ -174,9 +175,14 @@ export default {
                 }, 50)
             }
         })
+        const getImageUrl = (name, counter) => {
+
+            return new URL(`../../assets/game/knight/${name}_${counter}.png`, import.meta.url).href
+        }
 
 
-        return { charPic, setAttack, setJump, displayActions, charClass, left, actionInProgress, top, opacity, showHit, setHeal, showHeal, hit, heal };
+
+        return { charPic, getImageUrl, counter, charState, setAttack, setJump, displayActions, charClass, left, actionInProgress, top, opacity, showHit, setHeal, showHeal, hit, heal };
     },
 
 
