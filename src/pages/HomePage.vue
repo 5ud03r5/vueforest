@@ -26,7 +26,6 @@
 </template>
 
 <script setup>
-import { useUserStore } from '../stores/user';
 import { auth } from '../includes/firebase';
 import { ref, watch } from 'vue';
 const buttonValue = ref('')
