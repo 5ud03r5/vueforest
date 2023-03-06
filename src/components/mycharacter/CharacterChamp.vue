@@ -124,6 +124,8 @@ export default {
 
             }
         }, 40);
+
+
         const charPic = ref("/src/assets/game/knight/" + charState.value + "_" + counter.value + ".png");
         const displayActions = ref(false)
 

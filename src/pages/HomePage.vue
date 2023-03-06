@@ -3,8 +3,7 @@
         <div class="relative container text-[80px] font-black text-gray-800 mx-auto w-[1000px] flex flex-col">
             <div class="animate-fade1">Welcome in Vue game</div>
             <div class="container items-end mx-auto">
-                <img class="absolute right-10 h-[500px] animate-fade1"
-                    :src="'/src/assets/game/knight/' + img + '_' + counter + '.png'" />
+                <img class="absolute right-10 h-[500px] animate-fade1" :src="getImageUrl(img, counter)" />
             </div>
         </div>
 
@@ -41,6 +40,9 @@ if (auth.currentUser) {
 } else {
     buttonValue.value = 'Login'
     linkTo.value = '/login'
+}
+const getImageUrl = (name, counter) => {
+    return new URL(`../assets/game/knight/${name}_${counter}.png`, import.meta.url).href
 }
 
 setInterval(() => {
