@@ -11,7 +11,7 @@ As a backend it is using Cloud Firestore.
 # game
 
 You can access game by navigation to [https://vercelgame.](https://vuegame.vercel.app/)
-It still requires some improvements (Knight and ninja animations are flashing, not transition for Arena page)
+It still requires some improvements (Knight and ninja animations are flashing, no transition for Arena page)
 ![image](https://user-images.githubusercontent.com/94323029/223115029-497ba40f-4b79-4d04-8771-2d1298a2a1e6.png)
 
 You can increase enemy level by typing + sign under his avatar:
