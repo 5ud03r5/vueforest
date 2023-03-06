@@ -7,8 +7,8 @@ import { auth } from "../includes/firebase";
 import HomePage from "../pages/HomePage.vue";
 
 const router = createRouter({
-  history: createWebHistory(),
-  mode: "hash",
+  history: createWebHistory(import.meta.env.BASE_URL),
+
   routes: [
     {
       path: "/",
