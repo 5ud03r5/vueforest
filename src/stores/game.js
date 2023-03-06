@@ -18,7 +18,7 @@ export const useGameStore = defineStore("game", () => {
   const userArmorFromItems = ref(0);
   const userMpowerFromItems = ref(0);
   const monsterLevel = ref(1);
-  const monsterExp = ref(120);
+  const monsterExp = ref(10);
   const gameInProgress = ref(false);
   const playerStr = ref(0);
   const playerMpower = ref(0);
@@ -92,7 +92,7 @@ export const useGameStore = defineStore("game", () => {
     userLife.value = 100;
     actionInProgress.value = false;
     monsterLevel.value = 1;
-    monsterExp.value = 120;
+    monsterExp.value = 10;
     monsterStr.value = 7;
     gameInProgress.value = false;
     playerStr.value = 0;

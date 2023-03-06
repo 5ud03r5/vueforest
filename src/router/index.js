@@ -8,6 +8,7 @@ import HomePage from "../pages/HomePage.vue";
 
 const router = createRouter({
   history: createWebHistory(),
+  mode: "hash",
   routes: [
     {
       path: "/",
