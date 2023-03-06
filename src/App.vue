@@ -32,17 +32,18 @@ export default {
   },
   setup() {
     const userStore = useUserStore()
-    /* console.log(auth.currentUser)
+    console.log(auth.currentUser)
     if (auth.currentUser) {
- */
-    const docRef = doc(db, "users", auth.currentUser.uid);
-    const useCharacterQuery = () => {
-      return useQuery(["users"], () => getSnap(docRef));
-    }
-    const { data } = useCharacterQuery();
-    userStore.user = data;
 
-    /*     } */
+      const docRef = doc(db, "users", auth.currentUser.uid);
+      const useCharacterQuery = () => {
+        return useQuery(["users"], () => getSnap(docRef));
+      }
+      const { data } = useCharacterQuery();
+      userStore.user = data;
+      userStore.userLoggedIn = true
+
+    }
 
 
 
