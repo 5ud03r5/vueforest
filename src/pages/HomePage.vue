@@ -3,7 +3,8 @@
         <div class="relative container text-[80px] font-black text-gray-800 mx-auto w-[1000px] flex flex-col">
             <div class="animate-fade1">Welcome in Vue game</div>
             <div class="container items-end mx-auto">
-                <img class="absolute right-10 h-[500px] animate-fade1" :src="charRun" />
+                <img class="absolute right-10 h-[500px] animate-fade1"
+                    :src="'/src/assets/game/knight/' + img + '_' + counter + '.png'" />
             </div>
         </div>
 
@@ -31,8 +32,6 @@ import { auth } from '../includes/firebase';
 import { ref, watch } from 'vue';
 const buttonValue = ref('')
 const linkTo = ref('')
-const userStore = useUserStore()
-const charRun = ref('/src/assets/game/knight/runback_1.png')
 const counter = ref(1)
 const counterChange = ref(0)
 const img = ref('runback')
@@ -60,9 +59,7 @@ setInterval(() => {
 
 }, 90)
 
-watch(counter, () => {
-    charRun.value = '/src/assets/game/knight/' + img.value + '_' + counter.value + '.png'
-})
+
 
 
 
