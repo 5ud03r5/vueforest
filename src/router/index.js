@@ -22,8 +22,9 @@ const router = createRouter({
     {
       path: "/register",
       component: RegistrationPage,
+      meta: { requiresAuth: false },
     },
-    { path: "/login", component: LoginPage },
+    { path: "/login", component: LoginPage, meta: { requiresAuth: false } },
     { path: "/:notFound(.*)", redirect: "/" },
   ],
 });
