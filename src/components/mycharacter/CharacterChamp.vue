@@ -125,15 +125,7 @@ export default {
             counter.value++;
 
         }, 40);
-
-
-        const charPic = ref("/src/assets/game/knight/" + charState.value + "_" + counter.value + ".png");
         const displayActions = ref(false)
-
-        watch(counter, () => {
-            charPic.value = "/src/assets/game/knight/" + charState.value + "_" + counter.value + ".png";
-        });
-
         watch(gameover, () => {
             if (gameover.value === true) {
                 charState.value = 'Idle'
@@ -179,10 +171,7 @@ export default {
 
             return new URL(`../../assets/game/knight/${name}_${counter}.png`, import.meta.url).href
         }
-
-
-
-        return { charPic, getImageUrl, counter, charState, setAttack, setJump, displayActions, charClass, left, actionInProgress, top, opacity, showHit, setHeal, showHeal, hit, heal };
+        return { getImageUrl, counter, charState, setAttack, setJump, displayActions, charClass, left, actionInProgress, top, opacity, showHit, setHeal, showHeal, hit, heal };
     },
 
 

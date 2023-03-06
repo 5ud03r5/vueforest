@@ -1,6 +1,7 @@
 <template>
     <div class="">
-        <img class="absolute h-44" :style="{ right: right + 'px', top: -topMonst + 'px' }" :src='monsterPic' />
+        <img class="absolute h-44" :style="{ right: right + 'px', top: -topMonst + 'px' }"
+            :src='getImageUrl(charState, counter)' />
 
         <div v-if="showHit" class="absolute text-red-800 text-[50px] font-black h-max w-max  right-4 "
             :style="{ top: -top + 'px', opacity: opacity }">
@@ -20,7 +21,7 @@ import { storeToRefs } from 'pinia';
 export default {
     setup() {
         const userStore = useUserStore()
-        const charState = ref('idle')
+        const charState = ref('Idle')
         const counter = ref(1)
         const right = ref(20)
         const top = ref(250)
@@ -31,7 +32,7 @@ export default {
         const gameStore = useGameStore()
         const hit = ref(0)
 
-        const monsterPic = ref("/src/assets/game/ninja/" + charState.value + "_" + counter.value + ".png")
+
         onBeforeRouteLeave(() => { clearInterval(intervalMain) })
 
 
@@ -60,7 +61,7 @@ export default {
                     round = 0
                     right.value = 20
                     turn.value = 'user'
-                    charState.value = 'idle'
+                    charState.value = 'Idle'
                     topMonst.value = 175
                     actionInProgress.value = false
 
@@ -79,20 +80,18 @@ export default {
             }
         }, 40);
 
-        watch(counter, () => {
-            monsterPic.value = "/src/assets/game/ninja/" + charState.value + "_" + counter.value + ".png"
-        })
+
 
 
         watch(gameover, () => {
             if (gameover.value === true) {
-                charState.value = 'idle'
+                charState.value = 'Idle'
 
             }
         })
 
         watch(turn, () => {
-            if (turn.value === 'monster' && charState.value === 'idle' && gameover.value === false) {
+            if (turn.value === 'monster' && charState.value === 'Idle' && gameover.value === false) {
                 setAttack()
             }
         })
@@ -124,8 +123,12 @@ export default {
             charState.value = 'run'
             counter.value = 1
         }
+        const getImageUrl = (name, counter) => {
 
-        return { monsterPic, setAttack, right, showHit, top, opacity, topMonst, hit }
+            return new URL(`../../assets/game/ninja/${name}_${counter}.png`, import.meta.url).href
+        }
+
+        return { getImageUrl, charState, counter, setAttack, right, showHit, top, opacity, topMonst, hit }
     }
 
 
