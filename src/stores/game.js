@@ -62,7 +62,6 @@ export const useGameStore = defineStore("game", () => {
 
   watch(playerExp, () => {
     if (playerExp.value >= playerNextLevel.value) {
-      console.log("next level", playerNextLevel.value);
       playerLevel.value++;
       playerNextLevel.value = playerLevel.value * 140 * 2;
       unspentPoints.value = unspentPoints.value + 5;

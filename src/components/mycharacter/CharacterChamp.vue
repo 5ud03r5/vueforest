@@ -49,13 +49,13 @@ export default {
         const charState = ref('Idle');
         const showHeal = ref(false)
         const charClass = ref('absolute h-44 top-[-163px]')
-        onBeforeRouteLeave(() => { clearInterval(intervalMain), console.log('here') })
+        onBeforeRouteLeave(() => { clearInterval(intervalMain) })
 
         const { gameInProgress, userMpowerFromItems, userLife, turn, monsterHit, actionInProgress, gameover, playerHit, monsterStr, userArmorFromItems } = storeToRefs(gameStore)
 
 
         const setJump = (event) => {
-            console.log(event);
+
         };
         const setAttack = (event) => {
             actionInProgress.value = true
@@ -112,6 +112,7 @@ export default {
 
                 }
             }
+            counter.value++;
             if (counter.value > 9) {
                 if (charState.value === "attack") {
                     monsterHit.value = true
@@ -122,7 +123,7 @@ export default {
                 counter.value = 1;
 
             }
-            counter.value++;
+
 
         }, 40);
         const displayActions = ref(false)

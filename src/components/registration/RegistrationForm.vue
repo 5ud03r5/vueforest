@@ -81,7 +81,7 @@ export default {
 
 
                 } catch (error) {
-                    console.log(error)
+
                     alert('An upexpected error occured. Please try again later.')
                     return;
                 }
